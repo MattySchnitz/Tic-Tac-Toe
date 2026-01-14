@@ -2,25 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Tic Tac Toe</title>
+  <title>Kawaii Dog Tic-Tac-Toe</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <h1>Tic-Tac-Toe</h1>
+  <h1>🐶 Kawaii Dog Tic-Tac-Toe 🐶</h1>
 
-  <!-- Game status text -->
-  <p id="status">Player X's turn</p>
+  <!-- Scoreboard -->
+  <div id="scoreboard">
+    <span>🐶 Puppy: <strong id="scoreX">0</strong></span>
+    <span>🐕 Doggo: <strong id="scoreO">0</strong></span>
+  </div>
 
-  <!-- Game board -->
+  <!-- Status -->
+  <p id="status">Puppy's turn! 💖</p>
+
+  <!-- Board -->
   <div id="board" class="board"></div>
 
-  <!-- Reset button -->
-  <button onclick="resetGame()">Restart</button>
+  <!-- Reset -->
+  <button onclick="resetGame()">Restart Round 🎾</button>
 
-  <!-- Game logic -->
+  <!-- Squeak sound -->
+  <audio id="squeak" src="https://actions.google.com/sounds/v1/toys/squeaky_toy.ogg"></audio>
+
   <script src="script.js"></script>
-
 </body>
 </html>
