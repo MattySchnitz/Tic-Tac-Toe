@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         scores[winner]++;
         updateScores();
 
-        statusText.textContent = `🎉 ${names[winner]} WINS!!! Tap anywhere to play again! 🐾`;
+        statusText.textContent = `🎉 ${names[winner]} WINS!!! Tap/Click anywhere to play again! 🐾`;
         gameActive = false;
         gameOver = true;
         showWinner(winner);
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (!gameState.includes("")) {
-      statusText.textContent = "🤝 It's a tie.. Who's a good boy?! Tap anywhere to play again!";
+      statusText.textContent = "🤝 It's a tie.. Who's a good boy?! Tap/Click anywhere to play again!";
       gameActive = false;
       gameOver = true;
       return true;
