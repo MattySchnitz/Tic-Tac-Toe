@@ -1,10 +1,9 @@
-/* 🌈 GLOBAL KAWAII VIBES */
 body {
   font-family: "Comic Sans MS", "Arial Rounded MT Bold", sans-serif;
   text-align: center;
   background: linear-gradient(135deg, #ffd6e8, #e0f7ff, #fff4cc);
   background-size: 400% 400%;
-  animation: bgMove 10s ease infinite;
+  animation: bgMove 8s ease infinite;
   min-height: 100vh;
   margin: 0;
   padding: 20px;
@@ -17,19 +16,27 @@ body {
 }
 
 h1 {
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   color: #ff7eb9;
-  margin-bottom: 5px;
-  text-shadow: 2px 2px #fff;
+  text-shadow: 3px 3px #fff;
 }
 
+/* 🧮 SCOREBOARD */
+#scoreboard {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* STATUS */
 #status {
   font-size: 1.3rem;
-  color: #555;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
-/* 📱 RESPONSIVE BOARD */
+/* BOARD */
 .board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -38,23 +45,24 @@ h1 {
   margin: 20px auto;
 }
 
-/* 🧸 SQUISHY SQUARES */
+/* SQUISHY CELLS */
 .square {
   aspect-ratio: 1 / 1;
-  background: #ffffff;
+  background: #fff;
   border-radius: 25px;
   font-size: 3rem;
-  cursor: pointer;
+  box-shadow: 0 8px 0 #ffb3d9;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 0 #ffb3d9;
-  transition: transform 0.1s ease, background-color 0.2s ease;
-  user-select: none;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  animation: idleWiggle 3s ease-in-out infinite;
 }
 
-.square:hover {
-  background-color: #fff0f8;
+@keyframes idleWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(1deg); }
 }
 
 .square:active {
@@ -62,25 +70,19 @@ h1 {
   box-shadow: 0 2px 0 #ffb3d9;
 }
 
-/* 🎀 BUTTON */
+/* BUTTON */
 button {
-  margin-top: 15px;
   padding: 12px 24px;
   font-size: 1.1rem;
-  border: none;
   border-radius: 30px;
+  border: none;
   background-color: #ff9acb;
   color: #fff;
-  cursor: pointer;
   box-shadow: 0 5px 0 #ff5fa2;
+  cursor: pointer;
 }
 
-button:active {
-  transform: translateY(4px);
-  box-shadow: 0 1px 0 #ff5fa2;
-}
-
-/* 🐶 DOG WIN POPUP */
+/* 🐶 WIN POP */
 #dog {
   position: fixed;
   top: 50%;
@@ -93,6 +95,6 @@ button:active {
 
 @keyframes popDog {
   0% { transform: translate(-50%, -50%) scale(0); }
-  60% { transform: translate(-50%, -50%) scale(1.4); }
+  60% { transform: translate(-50%, -50%) scale(1.5); }
   100% { transform: translate(-50%, -50%) scale(1); }
 }
