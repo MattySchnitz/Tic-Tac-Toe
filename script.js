@@ -3,9 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const board = document.getElementById("board");
   const statusText = document.getElementById("status");
 
-  let currentPlayer = "X";
+  let currentPlayer = "🐶";
   let gameActive = true;
   let gameState = ["", "", "", "", "", "", "", "", ""];
+
+  const players = {
+    "🐶": "Puppy",
+    "🐕": "Doggo"
+  };
 
   const winningCombos = [
     [0,1,2], [3,4,5], [6,7,8],
@@ -32,8 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (checkWinner()) return;
 
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
-    statusText.textContent = `Player ${currentPlayer}'s turn 💕`;
+    currentPlayer = currentPlayer === "🐶" ? "🐕" : "🐶";
+    statusText.textContent = `${players[currentPlayer]}'s turn! 💕`;
   }
 
   function checkWinner() {
@@ -43,15 +48,15 @@ document.addEventListener("DOMContentLoaded", () => {
         gameState[a] === gameState[b] &&
         gameState[a] === gameState[c]
       ) {
-        statusText.textContent = `🎉 Player ${gameState[a]} wins!`;
+        statusText.textContent = `🎉 ${players[gameState[a]]} WINS!!! 🐾`;
         gameActive = false;
-        showCat();
+        showDog();
         return true;
       }
     }
 
     if (!gameState.includes("")) {
-      statusText.textContent = "🤝 It's a draw!";
+      statusText.textContent = "🤝 It's a tie! Good puppies!";
       gameActive = false;
       return true;
     }
@@ -59,24 +64,23 @@ document.addEventListener("DOMContentLoaded", () => {
     return false;
   }
 
-  function showCat() {
-    const cat = document.createElement("div");
-    cat.id = "cat";
-    cat.textContent = "🐱🎉";
-    document.body.appendChild(cat);
+  function showDog() {
+    const dog = document.createElement("div");
+    dog.id = "dog";
+    dog.textContent = "🐶🎉🐕";
+    document.body.appendChild(dog);
 
-    setTimeout(() => {
-      cat.remove();
-    }, 2000);
+    setTimeout(() => dog.remove(), 2200);
   }
 
   window.resetGame = function () {
-    currentPlayer = "X";
+    currentPlayer = "🐶";
     gameActive = true;
     gameState = ["", "", "", "", "", "", "", "", ""];
-    statusText.textContent = "Player X's turn";
+    statusText.textContent = "Puppy's turn! 💖";
     createBoard();
   };
 
+  statusText.textContent = "Puppy's turn! 💖";
   createBoard();
 });
