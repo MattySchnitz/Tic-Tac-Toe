@@ -9,10 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let scores = { "🐶": 0, "🐕": 0 };
 
+  // Load scores from localStorage
+  const savedScores = JSON.parse(localStorage.getItem("dogScores"));
+  if (savedScores) {
+    scores = savedScores;
+  }
+
   let currentPlayer = "🐶";
   let gameActive = true;
   let gameOver = false;
   let gameState = Array(9).fill("");
+  let lastWinner = null; // Track previous winner
 
   const names = {
     "🐶": "Puppy",
@@ -37,14 +44,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function handleSquareClick(index) {
-    // If game is over, ANY click restarts
+    // If game over
     if (gameOver) {
-      startNewRound();
+      startNewRound(index); // Pass index for immediate move if tapped
       return;
     }
 
     if (!gameActive || gameState[index]) return;
 
+    makeMove(index);
+  }
+
+  function makeMove(index) {
     gameState[index] = currentPlayer;
     playSqueak();
     createBoard();
@@ -68,10 +79,12 @@ document.addEventListener("DOMContentLoaded", () => {
         gameState[a] === gameState[c]
       ) {
         const winner = gameState[a];
+        lastWinner = winner;
         scores[winner]++;
+        saveScores();
         updateScores();
 
-        statusText.textContent = `🎉 ${names[winner]} WINS!!! Tap/Click anywhere to play again! 🐾`;
+        statusText.textContent = `🎉 ${names[winner]} WINS!!! Tap anywhere to play again! 🐾`;
         gameActive = false;
         gameOver = true;
         showWinner(winner);
@@ -80,13 +93,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (!gameState.includes("")) {
-      statusText.textContent = "🤝 It's a tie.. Who's a good boy?! Tap/Click anywhere to play again!";
+      lastWinner = null; // tie
+      statusText.textContent = "🤝 It's a tie! Tap anywhere to play again!";
       gameActive = false;
       gameOver = true;
       return true;
     }
 
     return false;
+  }
+
+  function saveScores() {
+    localStorage.setItem("dogScores", JSON.stringify(scores));
   }
 
   function updateScores() {
@@ -99,20 +117,31 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.id = "dog";
     popup.textContent = `${winner} 🎉 ${winner}`;
     document.body.appendChild(popup);
-
     setTimeout(() => popup.remove(), 2500);
   }
 
-  function startNewRound() {
+  function startNewRound(firstMoveIndex = null) {
     gameState = Array(9).fill("");
     gameActive = true;
     gameOver = false;
-    currentPlayer = "🐶";
-    statusText.textContent = "Puppy's turn! 💖";
+
+    // Determine who starts: loser of last game starts
+    if (lastWinner === "🐶") currentPlayer = "🐕";
+    else if (lastWinner === "🐕") currentPlayer = "🐶";
+    else currentPlayer = "🐶"; // tie defaults to Puppy
+
+    statusText.textContent = `${names[currentPlayer]}'s turn! 💖`;
+
     createBoard();
+
+    // If user tapped a square on new round, make that move immediately
+    if (firstMoveIndex !== null && !gameState[firstMoveIndex]) {
+      makeMove(firstMoveIndex);
+    }
   }
 
   // Initial load
-  statusText.textContent = "Puppy's turn! 💖";
+  updateScores();
+  statusText.textContent = `${names[currentPlayer]}'s turn! 💖`;
   createBoard();
 });
