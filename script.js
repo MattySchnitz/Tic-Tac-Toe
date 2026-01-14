@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (!gameState.includes("")) {
-      statusText.textContent = "🤝 It's a tie! Tap anywhere to play again!";
+      statusText.textContent = "🤝 It's a tie.. Who's a good boy?! Tap anywhere to play again!";
       gameActive = false;
       gameOver = true;
       return true;
