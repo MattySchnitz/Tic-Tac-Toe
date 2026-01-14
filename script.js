@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentPlayer = "🐶";
   let gameActive = true;
+  let gameOver = false;
   let gameState = Array(9).fill("");
 
   const names = {
@@ -30,12 +31,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const square = document.createElement("div");
       square.className = "square";
       square.textContent = cell;
-      square.onclick = () => handleMove(index);
+      square.onclick = () => handleSquareClick(index);
       board.appendChild(square);
     });
   }
 
-  function handleMove(index) {
+  function handleSquareClick(index) {
+    // If game is over, ANY click restarts
+    if (gameOver) {
+      startNewRound();
+      return;
+    }
+
     if (!gameActive || gameState[index]) return;
 
     gameState[index] = currentPlayer;
@@ -60,18 +67,22 @@ document.addEventListener("DOMContentLoaded", () => {
         gameState[a] === gameState[b] &&
         gameState[a] === gameState[c]
       ) {
-        scores[gameState[a]]++;
+        const winner = gameState[a];
+        scores[winner]++;
         updateScores();
-        statusText.textContent = `🎉 ${names[gameState[a]]} WINS!!! 🐾`;
+
+        statusText.textContent = `🎉 ${names[winner]} WINS!!! Tap anywhere to play again! 🐾`;
         gameActive = false;
-        showDog();
+        gameOver = true;
+        showWinner(winner);
         return true;
       }
     }
 
     if (!gameState.includes("")) {
-      statusText.textContent = "🤝 It's a tie! Everyone is a good dog!";
+      statusText.textContent = "🤝 It's a tie! Tap anywhere to play again!";
       gameActive = false;
+      gameOver = true;
       return true;
     }
 
@@ -83,22 +94,25 @@ document.addEventListener("DOMContentLoaded", () => {
     scoreO.textContent = scores["🐕"];
   }
 
-  function showDog() {
-    const dog = document.createElement("div");
-    dog.id = "dog";
-    dog.textContent = "🐶🎉🐕";
-    document.body.appendChild(dog);
-    setTimeout(() => dog.remove(), 2500);
+  function showWinner(winner) {
+    const popup = document.createElement("div");
+    popup.id = "dog";
+    popup.textContent = `${winner} 🎉 ${winner}`;
+    document.body.appendChild(popup);
+
+    setTimeout(() => popup.remove(), 2500);
   }
 
-  window.resetGame = function () {
+  function startNewRound() {
     gameState = Array(9).fill("");
     gameActive = true;
+    gameOver = false;
     currentPlayer = "🐶";
     statusText.textContent = "Puppy's turn! 💖";
     createBoard();
-  };
+  }
 
+  // Initial load
   statusText.textContent = "Puppy's turn! 💖";
   createBoard();
 });
